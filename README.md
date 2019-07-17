@@ -1,25 +1,35 @@
 # Form Recognizer with Azure Functions
 
-**Pre-Requisites**  
-* Visual Studio Code
-* Python 3
-* Azure Functions Extension for Visual Studio Code
-* Docker
-* Azure Storage Account
-* Form Recognizer Resource
-* Trained Form Recognizer Model
+## Pre-Requisites  
+* [Python 3](https://www.python.org/downloads/)
+   * [Virtual Python Environment Builder](https://pypi.org/project/virtualenv/)
+* [Visual Studio Code](https://code.visualstudio.com/)
+    * [Python Extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+    * [Azure Account Extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account)
+    * [Azure Functions Extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions)
+* [Docker Desktop](https://www.docker.com/products/docker-desktop)
+* [Postman](https://www.getpostman.com/)
+* [Azure Storage Account](https://docs.microsoft.com/en-us/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal)
+* [Form Recognizer Resource](https://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer/overview)
+* [Trained Form Recognizer Model](https://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer/quickstarts/python-train-extract)
 
-**Setup Environment**  
-1. Azure Portal > Create a Function App  
+## Environment Setup
+1. Azure Portal > Create a Function App
+   * **App name:** Provide your Function App a unique name
+   * **Resource Group:** Create a new or select an existing Resource Group
    * **Operating System:** Linux
    * **Hosting Plan:** Consumption
+   * **Location:** Select a Location (e.g. West Europe)
    * **Runtime Stack:** Python
+   ![alt text](images/img-azure-portal-create-function-app.png "Create a Function App")
 
 2. Visual Studio Code > Create a New Virtual Envrionment (Python).
     * Open Visual Studio Code
     * Open the folder that you would like to work from
     * Terminal: ```virtualenv .``` (this will create a virtual environment)
     * Terminal: ```.\Scripts\activate``` (this will activate the virtual environment)
+
+       ![alt text](images/img-vscode-terminal-python-virtualenv.png "Python Virtual Environment")
 
 3. Press: Ctrl + SHIFT + P
 4. Search "Create New Project", Select **"Azure Functions: Create New Project"**
@@ -29,11 +39,11 @@
 8. Provide the function a name (e.g. AnalyzeForm).
 9. Select the **Function** authorization level.
 
-**Python Library Requirements**
+## Python Library Requirements
 * Run the following command in your activated environment via Terminal: ```pip install azure-blob-storage```
 * Add the following line to **requirements.txt**: ```azure-storage-blob==1.4.0```
 
-**Python Code Sample**  
+## Python Code Sample
 This can be copy and pasted into **\_\_init\_\_.py**
 ```python
 import requests
@@ -79,7 +89,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     return func.HttpResponse(body,headers={'Content-Type':'application/json'})
 ```
 
-**Test the Azure Function locally using Postman**
+## Test the Azure Function Locally using Postman
 1. Execute the following command in Terminal to launch the functions runtime host: ``func start``
 2. Open Postman and create a new request with the following properties:
    * Method: GET
@@ -100,13 +110,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
 If successful, this should return the results of the form being processed by the Analyze Form Recognizer API.
 
-**Publish the Azure Function**  
+## Publish the Azure Function
 Execute the following terminal command to publish the current directory contents to an Azure Function App:  
 ```func azure functionapp publish NAME_OF_YOUR_FUNCTION_APP --build-native-deps```  
 
 Check out [https://aka.ms/func-python-publish](https://aka.ms/func-python-publish) for more information on publishing a Python function to Azure.
 
-**Test the Azure Function**  
+## Test the Azure Function
 Once the deployment has completed successfully, a public **invoke url** will be returned to the terminal window. 
 1. Copy the **invoke url** to the clipboard.
 2. Return to **Postman** and duplicate the existing request by right-clicking on the tab and clicking **Duplicate Tab**.
