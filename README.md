@@ -33,15 +33,23 @@
 
 3. Press: Ctrl + SHIFT + P
 4. Search "Create New Project", Select **"Azure Functions: Create New Project"**
+   ![alt text](images/img-vscode-functions-project-create.png "Create a New Azure Functions Project")
 5. Select the folder to deploy the Azure Function project to.
+   ![alt text](images/img-azure-functions-new-folder.png "Select the folder that will contain your function project")
 6. Select **Python** as the language for your Azure Function project.
+   ![alt text](images/img-azure-functions-new-language.png "Select a language for your function project")
 7. Select **HTTP trigger** as the template for your projects function.
+   ![alt text](images/img-azure-functions-new-trigger.png "Select a template for your project's first function")
 8. Provide the function a name (e.g. AnalyzeForm).
+   ![alt text](images/img-azure-functions-new-name.png "Provide a function name")
 9. Select the **Function** authorization level.
+   ![alt text](images/img-azure-functions-new-auth.png "Select an authorization level")
 
 ## Python Library Requirements
-* Run the following command in your activated environment via Terminal: ```pip install azure-blob-storage```
-* Add the following line to **requirements.txt**: ```azure-storage-blob==1.4.0```
+* Run the following command in your activated environment via Terminal: ```pip install azure-storage-blob```  
+   ![alt text](images/img-vscode-terminal-python-pip.png "Select an authorization level")
+* Add the following line to **requirements.txt**: ```azure-storage-blob==1.4.0```  
+   ![alt text](images/img-vscode-functions-project-requirements.png "Select an authorization level")
 
 ## Python Code Sample
 This can be copy and pasted into **\_\_init\_\_.py**
@@ -110,6 +118,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
 If successful, this should return the results of the form being processed by the Analyze Form Recognizer API.
 
+   ![alt text](images/img-postman-local-function.png "Test function locally using Postman")
+
 ## Publish the Azure Function
 Execute the following terminal command to publish the current directory contents to an Azure Function App:  
 ```func azure functionapp publish NAME_OF_YOUR_FUNCTION_APP --build-native-deps```  
@@ -122,5 +132,7 @@ Once the deployment has completed successfully, a public **invoke url** will be 
 2. Return to **Postman** and duplicate the existing request by right-clicking on the tab and clicking **Duplicate Tab**.
 3. Replace the http://localhost/api/YOUR_FUNCTION_NAME with the **invoke url**.
 4. Click **Send**
+
+   ![alt text](images/img-postman-cloud-function.png "Test deployed Azure Function using Postman")
 
 That's it! If successful, this should return the same results as before but this time, the function will be running in the cloud. We now have a serverless method of processing forms stored on Azure Blob Storage using Azure Functions.
