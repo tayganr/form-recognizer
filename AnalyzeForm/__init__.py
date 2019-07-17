@@ -1,4 +1,3 @@
-import json
 import requests
 import logging
 import azure.functions as func
@@ -24,6 +23,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     data = blob.content
     content_type = blob.properties.content_settings.content_type
 
+    body = None
     if content_type in SUPPORTED_CONTENT_TYPES:
 
         # 4. Generate Endpoint and HTTP Header
@@ -35,13 +35,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         # 5. Analyze Form
         response = requests.post(endpoint, headers=headers, data=data)
-        logging.info(response.json())
+        body = response.content
 
     # 6. Return HTTP Response
-    body = {
-        'account_name': storage_account_name,
-        'account_key': 'YOUR_SECRET_ACCOUNT_KEY' if storage_account_key else None,
-        'blob_name': blob_name,
-        'content_type': content_type
-    }
-    return func.HttpResponse(json.dumps(body),headers={'Content-Type':'application/json'})
+    return func.HttpResponse(body,headers={'Content-Type':'application/json'})
